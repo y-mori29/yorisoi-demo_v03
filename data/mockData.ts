@@ -121,6 +121,10 @@ const text9 = `それじゃあ、今日は 健吾くんの卵アレルギーの�
 あと、体調が悪い日や熱がある日は試験できませんので、その時は朝にお電話いただけたら助かります。試験の後、だいたい1時間ぐらい 院内で様子を見ます。圭吾君、隊長 退屈しちゃうかもしれませんけど、絵本とか持ってきてもらうといいかもですね。あ、お母さんも 朝 バタバタすると思うんですけど、無理せず来てくださいね。午前中は 予定入れずにゆったりめ で大丈夫です。ああと以前お渡ししたお薬も一緒にお持ちください。はい、そんな感じです。何かご不安なことをありますか？
 はい、大丈夫です。`;
 
+const text10 = `テスト録音です。`;
+
+const text11 = `初回登録のみで、録音は未実施です。`;
+
 // --- Clinical Data (JSON) P1 - P9 ---
 
 const data1: ClinicalData = {
@@ -450,6 +454,72 @@ const data9: ClinicalData = {
   }
 };
 
+const data10: ClinicalData = {
+  soap: {
+    subjective: "特になし。",
+    objective: "バイタル安定。",
+    assessment: "録音内容はテストのみ。",
+    plan: "次回訪問時に詳細聴取予定。"
+  },
+  home_visit: {
+    basic_info: "2025/12/15 ケアホームはなこ 山田 太郎",
+    chief_complaint: "テスト録音の確認",
+    observation_treatment: "特記事項なし",
+    medication_instruction: "現行処方を継続",
+    next_plan_handover: "必要に応じて追記"
+  },
+  pharmacy_focus: {
+    medications: [],
+    adherence: "問題なし",
+    side_effects: [],
+    drug_related_problems: [],
+    labs_and_monitoring: [],
+    patient_education: ["録音内容の共有方法を説明"],
+    follow_up: "次回訪問で症状確認"
+  },
+  alerts: {
+    red_flags: [],
+    need_to_contact_physician: []
+  },
+  meta: {
+    main_problems: [],
+    note_for_pharmacy: "テスト録音のみ登録済み。"
+  }
+};
+
+const data11: ClinicalData = {
+  soap: {
+    subjective: "未聴取。",
+    objective: "未聴取。",
+    assessment: "初回登録のみ。",
+    plan: "次回訪問で情報収集。"
+  },
+  home_visit: {
+    basic_info: "2025/12/15 ケアホームはなこ 鈴木 一郎",
+    chief_complaint: "未聴取",
+    observation_treatment: "未実施",
+    medication_instruction: "既存処方を継続予定",
+    next_plan_handover: "次回訪問時に追記"
+  },
+  pharmacy_focus: {
+    medications: [],
+    adherence: "未確認",
+    side_effects: [],
+    drug_related_problems: [],
+    labs_and_monitoring: [],
+    patient_education: [],
+    follow_up: "情報取得後に更新"
+  },
+  alerts: {
+    red_flags: [],
+    need_to_contact_physician: []
+  },
+  meta: {
+    main_problems: [],
+    note_for_pharmacy: "初回登録のみ。"
+  }
+};
+
 
 export const MOCK_FACILITIES: Facility[] = [
   {
@@ -460,6 +530,11 @@ export const MOCK_FACILITIES: Facility[] = [
   {
     id: 'f_002',
     name: 'グループホーム さくら',
+    patients: []
+  },
+  {
+    id: 'f_003',
+    name: 'ケアホームはなこ',
     patients: []
   }
 ];
@@ -591,12 +666,41 @@ export const MOCK_PATIENTS: Patient[] = [
     records: [
       { id: "r9-1", date: "2025-10-10", transcript: text9, clinicalData: data9, status: 'pending' }
     ]
+  },
+  {
+    id: "p10",
+    name: "山田 太郎",
+    kana: "ヤマダ タロウ",
+    birthDate: "1955-04-01",
+    age: 70,
+    gender: "male",
+    avatarColor: "#c4b5fd", // purple-300
+    facility_id: 'f_003',
+    room_number: '301',
+    records: [
+      { id: "r10-1", date: "2025-12-15", transcript: text10, clinicalData: data10, status: 'pending' }
+    ]
+  },
+  {
+    id: "p11",
+    name: "鈴木 一郎",
+    kana: "スズキ イチロウ",
+    birthDate: "1952-09-09",
+    age: 73,
+    gender: "male",
+    avatarColor: "#86efac", // green-300
+    facility_id: 'f_003',
+    room_number: '302',
+    records: [
+      { id: "r11-1", date: "2025-12-15", transcript: text11, clinicalData: data11, status: 'pending' }
+    ]
   }
 ];
 
 // Link patients to facilities
 MOCK_FACILITIES[0].patients = MOCK_PATIENTS.filter(p => p.facility_id === 'f_001');
 MOCK_FACILITIES[1].patients = MOCK_PATIENTS.filter(p => p.facility_id === 'f_002');
+MOCK_FACILITIES[2].patients = MOCK_PATIENTS.filter(p => p.facility_id === 'f_003');
 
 export const MOCK_ROUNDS: Round[] = [
   {
